@@ -59,7 +59,7 @@ class DefaultServerTestCase(BaseServerBackendTestCase):
     def test_not_modified(self):
         server = DefaultServer()
         request = Mock()
-        request.META = {'HTTP_IF_MODIFIED_SINCE': http_date(time.time())}
+        request.headers = {'HTTP_IF_MODIFIED_SINCE': http_date(time.time())}
         response = server.serve(request, self.filer_file)
         self.assertTrue(isinstance(response, HttpResponseNotModified))
 
