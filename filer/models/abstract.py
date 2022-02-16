@@ -185,10 +185,7 @@ class BaseImage(File):
     @property
     def icons(self):
         required_thumbnails = {
-            size: {'size': (int(size), int(size)),
-                    'crop': True,
-                    'upscale': True,
-                    'subject_location': self.subject_location}
+            size: {'size': (int(size), int(size)), 'crop': True, 'upscale': True, 'subject_location': self.subject_location}
             for size in filer_settings.FILER_ADMIN_ICON_SIZES}
         return self._generate_thumbnails(required_thumbnails)
 

@@ -11,11 +11,6 @@ from django.forms.models import model_to_dict as model_to_dict_django
 from django.test import TestCase
 from django.urls import reverse
 
-from tests.helpers import (
-    SettingsOverride, create_folder_structure, create_image, create_superuser,
-)
-from tests.utils.extended_app.models import ExtImage, Video
-
 from filer import settings as filer_settings
 from filer.admin.folderadmin import FolderAdmin
 from filer.models.filemodels import File
@@ -24,6 +19,10 @@ from filer.models.virtualitems import FolderRoot
 from filer.settings import FILER_IMAGE_MODEL
 from filer.thumbnail_processors import normalize_subject_location
 from filer.utils.loader import load_model
+from tests.helpers import (
+    SettingsOverride, create_folder_structure, create_image, create_superuser,
+)
+from tests.utils.extended_app.models import ExtImage, Video
 
 
 Image = load_model(FILER_IMAGE_MODEL)
@@ -886,8 +885,7 @@ class FolderListingTest(TestCase):
             # user sees all items: FOO, BAR, BAZ, SAMP
             self.assertEqual(
                 {folder.pk for folder in item_list},
-                {self.foo_folder.pk, self.bar_folder.pk, self.baz_folder.pk,
-                     self.spam_file.pk})
+                {self.foo_folder.pk, self.bar_folder.pk, self.baz_folder.pk, self.spam_file.pk})
 
     def test_folder_ownership(self):
         with SettingsOverride(filer_settings, FILER_ENABLE_PERMISSIONS=True):
@@ -937,8 +935,7 @@ class FolderListingTest(TestCase):
             # user sees all items because he has permissions on the parent folder
             self.assertEqual(
                 {folder.pk for folder in item_list},
-                {self.foo_folder.pk, self.bar_folder.pk, self.baz_folder.pk,
-                     self.spam_file.pk})
+                {self.foo_folder.pk, self.bar_folder.pk, self.baz_folder.pk, self.spam_file.pk})
 
     def test_search_against_owner(self):
         url = reverse('admin:filer-directory_listing',
