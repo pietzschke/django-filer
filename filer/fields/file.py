@@ -57,7 +57,7 @@ class AdminFileWidget(ForeignKeyRawIdWidget):
         hidden_input = super(ForeignKeyRawIdWidget, self).render(name, value, attrs)  # grandparent super
         context = {
             'hidden_input': hidden_input,
-            'lookup_url': '%s%s' % (related_url, lookup_url),
+            'lookup_url': f'{related_url}{lookup_url}',
             'object': obj,
             'lookup_name': name,
             'id': css_id,

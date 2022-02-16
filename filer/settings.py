@@ -42,7 +42,7 @@ if not _ICON_SIZES:
     raise ImproperlyConfigured('Please, configure FILER_ADMIN_ICON_SIZES')
 # Reliably sort by integer value, but keep icon size as string.
 # (There is some code in the wild that depends on this being strings.)
-FILER_ADMIN_ICON_SIZES = [str(i) for i in sorted([int(s) for s in _ICON_SIZES])]
+FILER_ADMIN_ICON_SIZES = [str(i) for i in sorted(int(s) for s in _ICON_SIZES)]
 
 # Filer admin templates have specific icon sizes hardcoded: 32 and 48.
 _ESSENTIAL_ICON_SIZES = ('32', '48')

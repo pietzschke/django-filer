@@ -135,6 +135,6 @@ def get_valid_filename(s):
     filename = slugify(filename)
     ext = slugify(ext)
     if ext:
-        return "%s.%s" % (filename, ext)
+        return f"{filename}.{ext}"
     else:
-        return "%s" % (filename,)
+        return f"{filename}"

@@ -74,7 +74,7 @@ class FileAdmin(PrimitivePermissionAwareModelAdmin):
             else:
                 url = reverse(
                     'admin:filer-directory_listing-unfiled_images')
-            url = "{0}{1}".format(
+            url = "{}{}".format(
                 url,
                 admin_url_params_encoded(request),
             )
@@ -118,7 +118,7 @@ class FileAdmin(PrimitivePermissionAwareModelAdmin):
                               kwargs={'folder_id': parent_folder.id})
             else:
                 url = reverse('admin:filer-directory_listing-unfiled_images')
-            url = "{0}{1}".format(
+            url = "{}{}".format(
                 url,
                 admin_url_params_encoded(request)
             )
@@ -141,7 +141,7 @@ class FileAdmin(PrimitivePermissionAwareModelAdmin):
     def display_canonical(self, instance):
         canonical = instance.canonical_url
         if canonical:
-            return mark_safe('<a href="%s">%s</a>' % (canonical, canonical))
+            return mark_safe(f'<a href="{canonical}">{canonical}</a>')
         else:
             return '-'
     display_canonical.allow_tags = True

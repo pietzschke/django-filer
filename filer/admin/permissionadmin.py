@@ -16,7 +16,7 @@ class PermissionAdmin(admin.ModelAdmin):
     autocomplete_fields = ['user', 'group']
 
     def get_queryset(self, request):
-        qs = super(PermissionAdmin, self).get_queryset(request)
+        qs = super().get_queryset(request)
         return qs.prefetch_related("group", "folder")
 
     def get_model_perms(self, request):

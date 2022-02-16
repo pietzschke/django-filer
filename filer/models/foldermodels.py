@@ -242,11 +242,11 @@ class Folder(models.Model, mixins.IconsMixin):
             # Django >1.6
             model_name = self._meta.model_name
         return reverse(
-            'admin:{0}_{1}_delete'.format(self._meta.app_label, model_name,),
+            f'admin:{self._meta.app_label}_{model_name}_delete',
             args=(self.pk,))
 
     def __str__(self):
-        return "%s" % (self.name,)
+        return f"{self.name}"
 
     def contains_folder(self, folder_name):
         try:
@@ -374,7 +374,7 @@ class FolderPermission(models.Model):
             elif perm == self.DENY:
                 perms.append('!%s' % s)
         perms = ', '.join(perms)
-        return "Folder: '%s'->%s [%s] [%s]" % (
+        return "Folder: '{}'->{} [{}] [{}]".format(
             name, self.get_type_display(),
             perms, usergroup)
 

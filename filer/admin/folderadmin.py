@@ -130,7 +130,7 @@ class FolderAdmin(PrimitivePermissionAwareModelAdmin):
                               kwargs={'folder_id': obj.parent.id})
             else:
                 url = reverse('admin:filer-directory_listing-root')
-            url = "{0}{1}".format(
+            url = "{}{}".format(
                 url,
                 admin_url_params_encoded(request),
             )
@@ -183,7 +183,7 @@ class FolderAdmin(PrimitivePermissionAwareModelAdmin):
                               kwargs={'folder_id': parent_folder.id})
             else:
                 url = reverse('admin:filer-directory_listing-root')
-            url = "{0}{1}".format(
+            url = "{}{}".format(
                 url,
                 admin_url_params_encoded(request),
             )
@@ -247,10 +247,10 @@ class FolderAdmin(PrimitivePermissionAwareModelAdmin):
                 self.get_queryset(request).get(id=last_folder_id)
             except self.model.DoesNotExist:
                 url = reverse('admin:filer-directory_listing-root')
-                url = "%s%s" % (url, admin_url_params_encoded(request))
+                url = f"{url}{admin_url_params_encoded(request)}"
             else:
                 url = reverse('admin:filer-directory_listing', kwargs={'folder_id': last_folder_id})
-                url = "%s%s" % (url, admin_url_params_encoded(request))
+                url = f"{url}{admin_url_params_encoded(request)}"
             return HttpResponseRedirect(url)
         elif folder_id is None:
             folder = FolderRoot()
@@ -493,7 +493,7 @@ class FolderAdmin(PrimitivePermissionAwareModelAdmin):
 
     def get_owner_filter_lookups(self):
         return [
-            'owner__{field}__icontains'.format(field=field)
+            f'owner__{field}__icontains'
             for field in self.owner_search_fields
         ]
 
@@ -808,7 +808,7 @@ class FolderAdmin(PrimitivePermissionAwareModelAdmin):
         else:
             # Don't display link to edit, because it either has no
             # admin or is edited inline.
-            return '%s: %s' % (capfirst(opts.verbose_name), force_str(obj))
+            return f'{capfirst(opts.verbose_name)}: {force_str(obj)}'
 
     def _check_copy_perms(self, request, files_queryset, folders_queryset):
         try:
@@ -862,8 +862,7 @@ class FolderAdmin(PrimitivePermissionAwareModelAdmin):
             # We do not allow copying/moving back to the folder itself
             enabled = (allow_self or fo != current_folder) and fo.has_add_children_permission(request)
             yield (fo, (mark_safe(("&nbsp;&nbsp;" * level) + force_str(fo)), enabled))
-            for c in self._list_all_destination_folders_recursive(request, folders_queryset, current_folder, fo.children.all(), allow_self, level + 1):
-                yield c
+            yield from self._list_all_destination_folders_recursive(request, folders_queryset, current_folder, fo.children.all(), allow_self, level + 1)
 
     def _list_all_destination_folders(self, request, folders_queryset, current_folder, allow_self):
         root_folders = self.get_queryset(request).filter(parent__isnull=True).order_by('name')
@@ -1046,7 +1045,7 @@ class FolderAdmin(PrimitivePermissionAwareModelAdmin):
         count = itertools.count(1)
         original = name
         while destination.contains_folder(name):
-            name = "%s_%s" % (original, next(count))
+            name = f"{original}_{next(count)}"
         return name
 
     def _copy_folder(self, folder, destination, suffix, overwrite):
