@@ -37,7 +37,7 @@ def handle_upload(request):
         upload_handlers = request.upload_handlers
         for handler in upload_handlers:
             handler.handle_raw_input(request,
-                                     request.META,
+                                     request.headers,
                                      content_length,
                                      None,
                                      None)
