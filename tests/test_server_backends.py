@@ -39,14 +39,14 @@ class DefaultServerTestCase(BaseServerBackendTestCase):
     def test_normal(self):
         server = DefaultServer()
         request = Mock()
-        request.META = {}
+        request.headers = {}
         response = server.serve(request, self.filer_file)
         self.assertTrue(response.has_header('Last-Modified'))
 
     def test_save_as(self):
         server = DefaultServer()
         request = Mock()
-        request.META = {}
+        request.headers = {}
         response = server.serve(request, self.filer_file, save_as=True)
         self.assertEqual(response['Content-Disposition'], 'attachment; filename=testimage.jpg')
 
@@ -66,7 +66,7 @@ class DefaultServerTestCase(BaseServerBackendTestCase):
     def test_missing_file(self):
         server = DefaultServer()
         request = Mock()
-        request.META = {}
+        request.headers = {}
         os.remove(self.filer_file.file.path)
         self.assertRaises(Http404, server.serve, *(request, self.filer_file.file))
 
@@ -81,7 +81,7 @@ class NginxServerTestCase(BaseServerBackendTestCase):
 
     def test_normal(self):
         request = Mock()
-        request.META = {}
+        request.headers = {}
         response = self.server.serve(request, self.filer_file)
         headers = dict(response.items())
         self.assertTrue(response.has_header('X-Accel-Redirect'))
@@ -95,7 +95,7 @@ class NginxServerTestCase(BaseServerBackendTestCase):
         this backend should not even notice if the file is missing.
         """
         request = Mock()
-        request.META = {}
+        request.headers = {}
         os.remove(self.filer_file.file.path)
         response = self.server.serve(request, self.filer_file)
         headers = dict(response.items())
@@ -111,7 +111,7 @@ class XSendfileServerTestCase(BaseServerBackendTestCase):
 
     def test_normal(self):
         request = Mock()
-        request.META = {}
+        request.headers = {}
         response = self.server.serve(request, self.filer_file)
         headers = dict(response.items())
         self.assertTrue(response.has_header('X-Sendfile'))
@@ -125,7 +125,7 @@ class XSendfileServerTestCase(BaseServerBackendTestCase):
         this backend should not even notice if the file is missing.
         """
         request = Mock()
-        request.META = {}
+        request.headers = {}
         os.remove(self.filer_file.file.path)
         response = self.server.serve(request, self.filer_file)
         headers = dict(response.items())

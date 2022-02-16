@@ -24,7 +24,7 @@ def handle_upload(request):
         filename = request.GET.get('qqfile', False) or request.GET.get('filename', False) or ''
 
         try:
-            content_length = int(request.META['CONTENT_LENGTH'])
+            content_length = int(request.headers['CONTENT_LENGTH'])
         except (IndexError, TypeError, ValueError):
             content_length = None
 
